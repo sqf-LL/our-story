@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的故事 | You & Me</title>
+
+    <style>
+        :root {
+            --paper: #fffaf8;
+            --ink: #3e2830;
+            --muted: #7d626a;
+            --rose: #c74368;
+            --rose-deep: #8e2546;
+            --blush: #ffe4eb;
+            --line: rgba(140, 75, 96, 0.18);
+            --serif: "STKaiti", "KaiTi", "Georgia", serif;
+            --sans: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 18%, #ffe4eb 0, transparent 25%),
+                radial-gradient(circle at 92% 5%, #ffeadf 0, transparent 20%),
+                linear-gradient(180deg, #fffaf7, #fdf0f2 50%, #fffafa);
+            font-family: var(--sans);
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        .site-header {
+            width: min(1200px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+        }
+
+        .brand svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        nav a {
+            transition: color 0.25s;
+        }
+
+        nav a:hover {
+            color: var(--rose);
+        }
+
+        .hero {
+            width: min(1200px, calc(100% - 48px));
+            min-height: calc(100vh - 90px);
+            margin: 0 auto;
+            padding: 70px 0 100px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+            align-items: center;
+            gap: 70px;
+        }
+
+        .kicker {
+            margin: 0 0 18px;
+            color: var(--rose);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-family: var(--serif);
+            font-size: clamp(58px, 8vw, 106px);
+            font-weight: 500;
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+        }
+
+        .hero h1 em {
+            position: relative;
+            color: var(--rose);
+            font-style: normal;
+        }
+
+        .hero h1 em::after {
+            content: "";
+            position: absolute;
+            left: 3%;
+            right: 0;
+            bottom: 2px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--blush);
+            z-index: -1;
+            transform: rotate(-1deg);
+        }
+
+        .hero-lead {
+            max-width: 560px;
+            margin: 30px 0 0;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 26px;
+            border-radius: 999px;
+            color: #ffffff;
+            background: var(--rose);
+            box-shadow: 0 14px 35px rgba(170, 40, 80, 0.24);
+            font-size: 15px;
+            transition: transform 0.25s, background 0.25s;
+        }
+
+        .primary-button:hover {
+            background: var(--rose-deep);
+            transform: translateY(-2px);
+        }
+
+        .you-and-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+        }
+
+        .you-and-me svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-art {
+            position: relative;
+            min-height: 520px;
+            display: grid;
+            place-items: center;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(199, 67, 104, 0.16);
+            border-radius: 50%;
+        }
+
+        .orbit-one {
+            width: 440px;
+            height: 440px;
+        }
+
+        .orbit-two {
+            width: 540px;
+            height: 540px;
+        }
+
+        .heart-card {
+            position: relative;
+            width: 310px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 46% 46% 42% 42%;
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: 0 30px 80px rgba(143, 48, 80, 0.18);
+            backdrop-filter: blur(14px);
+            animation: heartbeat 1.8s ease-in-out infinite;
+        }
+
+        .heart-card svg {
+            width: 100%;
+            filter: drop-shadow(0 24px 28px rgba(141, 25, 61, 0.22));
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.045);
+            }
+            60% {
+                transform: scale(1.025);
+            }
+        }
+
+        .love-note {
+            position: absolute;
+            right: -5px;
+            bottom: 40px;
+            padding: 22px 26px;
+            border: 1px solid rgba(199, 67, 104, 0.16);
+            border-radius: 4px 20px 20px 20px;
+            background: #fffdfb;
+            box-shadow: 0 18px 45px rgba(111, 38, 62, 0.13);
+            transform: rotate(4deg);
+        }
+
+        .love-note strong,
+        .love-note span {
+            display: block;
+        }
+
+        .love-note strong {
+            color: var(--rose);
+            font-family: var(--serif);
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .love-note span {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.12em;
+        }
+
+        .spark {
+            position: absolute;
+            color: var(--rose);
+            font-size: 24px;
+            animation: twinkle 2.5s ease-in-out infinite;
+        }
+
+        .spark-one {
+            top: 90px;
+            left: 12px;
+        }
+
+        .spark-two {
+            right: 10px;
+            top: 125px;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8) rotate(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(18deg);
+            }
+        }
+
+        .moments {
+            width: min(1200px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 70px 0 100px;
+        }
+
+        .section-heading {
+            margin-bottom: 38px;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-family: var(--serif);
+            font-size: clamp(36px, 5vw, 62px);
+            font-weight: 500;
+        }
+
+        .section-heading p {
+            max-width: 380px;
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .album {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .photo-card,
+        .quote-card {
+            margin: 0;
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 18px 50px rgba(104, 46, 63, 0.11);
+            overflow: hidden;
+        }
+
+        .photo-card {
+            padding: 11px 11px 0;
+        }
+
+        .photo-wide {
+            grid-column: span 2;
+        }
+
+        .media {
+            overflow: hidden;
+            border-radius: 16px;
+            background: #f4e7e9;
+        }
+
+        .photo-wide .media {
+            aspect-ratio: 16 / 10;
+        }
+
+        .photo-tall .media {
+            aspect-ratio: 4 / 5;
+        }
+
+        .media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .photo-card:hover .media img {
+            transform: scale(1.045);
+        }
+
+        .photo-us img {
+            object-position: center 32%;
+        }
+
+        .photo-wife-call img {
+            object-position: center 35%;
+        }
+
+        .photo-wife-lake img {
+            object-position: center 38%;
+        }
+
+        .photo-me img {
+            object-position: center 24%;
+        }
+
+        figcaption {
+            padding: 18px 10px 20px;
+        }
+
+        .caption-number {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--rose);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+        }
+
+        figcaption p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .quote-card {
+            min-height: 320px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background:
+                linear-gradient(145deg, rgba(255, 241, 245, 0.95), rgba(255, 252, 249, 0.95));
+        }
+
+        .quote-card span {
+            color: var(--rose);
+            font-family: var(--serif);
+            font-size: 68px;
+            line-height: 0.7;
+        }
+
+        .quote-card blockquote {
+            margin: 18px 0;
+            font-family: var(--serif);
+            font-size: clamp(24px, 3vw, 34px);
+            line-height: 1.5;
+        }
+
+        .quote-card small {
+            color: var(--muted);
+            letter-spacing: 0.1em;
+        }
+
+        .letter-section {
+            width: min(1000px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 70px 0 110px;
+        }
+
+        .love-letter {
+            position: relative;
+            padding: clamp(34px, 7vw, 76px);
+            border: 1px solid var(--line);
+            border-radius: 36px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 245, 247, 0.92));
+            box-shadow: 0 26px 90px rgba(116, 45, 67, 0.13);
+            overflow: hidden;
+        }
+
+        .love-letter::after {
+            content: "♡";
+            position: absolute;
+            right: 20px;
+            bottom: -80px;
+            color: rgba(199, 67, 104, 0.06);
+            font-family: Georgia, serif;
+            font-size: 320px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .letter-label {
+            margin: 0 0 18px;
+            color: var(--rose);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+        }
+
+        .love-letter h2 {
+            max-width: 730px;
+            margin: 0 0 26px;
+            font-family: var(--serif);
+            font-size: clamp(34px, 5vw, 56px);
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        .love-letter > p,
+        .letter-content p {
+            max-width: 680px;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 2;
+        }
+
+        .letter-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.8s ease, opacity 0.6s ease, margin 0.6s;
+        }
+
+        .love-letter.is-open .letter-content {
+            max-height: 500px;
+            margin-top: 22px;
+            opacity: 1;
+        }
+
+        .letter-signature {
+            margin-top: 24px;
+            color: var(--ink);
+            text-align: right;
+            font-family: var(--serif);
+            font-size: 22px;
+        }
+
+        .letter-signature span {
+            color: var(--rose);
+        }
+
+        .reveal-button {
+            position: relative;
+            z-index: 1;
+            margin-top: 30px;
+            padding: 14px 28px;
+            border: 0;
+            border-radius: 999px;
+            color: #ffffff;
+            background: var(--rose);
+            box-shadow: 0 12px 30px rgba(170, 40, 80, 0.22);
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .reveal-button:hover {
+            background: var(--rose-deep);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            width: min(1200px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 30px 0 46px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 0.14em;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .heart-pop {
+            position: fixed;
+            bottom: 10vh;
+            z-index: 100;
+            color: var(--rose);
+            font-size: 22px;
+            pointer-events: none;
+            animation: float-up 2.8s ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translate(0, 30px) scale(0.5) rotate(0);
+            }
+            18% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--drift), -75vh) scale(1.3) rotate(35deg);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding-top: 50px;
+            }
+
+            .hero-art {
+                min-height: 440px;
+            }
+
+            .orbit-one {
+                width: 340px;
+                height: 340px;
+            }
+
+            .orbit-two {
+                width: 420px;
+                height: 420px;
+            }
+
+            .heart-card {
+                width: 250px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .album {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .photo-wide {
+                grid-column: span 2;
+            }
+
+            .quote-card {
+                grid-column: span 2;
+                min-height: 260px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .site-header,
+            .hero,
+            .moments,
+            .letter-section,
+            footer {
+                width: min(100% - 30px, 1200px);
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-bottom: 60px;
+            }
+
+            .hero h1 {
+                font-size: clamp(50px, 17vw, 74px);
+            }
+
+            .hero-art {
+                min-height: 360px;
+            }
+
+            .orbit-one {
+                width: 270px;
+                height: 270px;
+            }
+
+            .orbit-two {
+                width: 330px;
+                height: 330px;
+            }
+
+            .heart-card {
+                width: 205px;
+                padding: 30px;
+            }
+
+            .love-note {
+                right: 0;
+                bottom: 12px;
+                padding: 16px 20px;
+            }
+
+            .album {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-wide,
+            .quote-card {
+                grid-column: span 1;
+            }
+
+            .photo-tall .media {
+                aspect-ratio: 4 / 4.7;
+            }
+
+            .love-letter {
+                border-radius: 26px;
+            }
+
+            .love-letter.is-open .letter-content {
+                max-height: 700px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="#top">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M50 86C42 78 12 58 12 34C12 18 32 11 43 23C46 27 48 31 50 34C52 31 54 27 57 23C68 11 88 18 88 34C88 58 58 78 50 86Z"
+                      fill="#c74368"/>
+            </svg>
+            <span>OUR STORY</span>
+        </a>
+
+        <nav>
+            <a href="#moments">我们的照片</a>
+            <a href="#letter">写给你的信</a>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="kicker">A little world made for two</p>
+                <h1>
+                    关于我们<br>
+                    <em>故事很长</em><br>
+                    每一页都是你
+                </h1>
+                <p class="hero-lead">
+                    从喜欢你开始，普通的日子有了期待。
+                    想和你一起看很多次日落，也想陪你过好每一个平凡的明天。
+                </p>
+
+                <div class="hero-actions">
+                    <a class="primary-button" href="#moments">翻开我们的故事</a>
+                    <span class="you-and-me">
+                        你 &amp; 我
+                        <svg viewBox="0 0 100 100" aria-hidden="true">
+                            <path d="M50 86C42 78 12 58 12 34C12 18 32 11 43 23C46 27 48 31 50 34C52 31 54 27 57 23C68 11 88 18 88 34C88 58 58 78 50 86Z"
+                                  fill="#c74368"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <span class="spark spark-one">✦</span>
+                <span class="spark spark-two">✦</span>
+
+                <div class="heart-card">
+                    <svg viewBox="0 0 800 800">
+                        <defs>
+                            <linearGradient id="heroRed" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#ff9ab3"/>
+                                <stop offset="48%" stop-color="#ed557b"/>
+                                <stop offset="100%" stop-color="#9f1e46"/>
+                            </linearGradient>
+                            <radialGradient id="heroShine" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.75"/>
+                                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <path d="M400 680C340 620 130 455 130 280C130 165 215 100 305 100C355 100 385 128 400 162C415 128 445 100 495 100C585 100 670 165 670 280C670 455 460 620 400 680Z"
+                              fill="url(#heroRed)"/>
+                        <ellipse cx="285" cy="235" rx="90" ry="50"
+                                 transform="rotate(-28 285 235)"
+                                 fill="url(#heroShine)"/>
+                    </svg>
+                </div>
+
+                <div class="love-note">
+                    <strong>每一天</strong>
+                    <span>都更爱你一点</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="moments" class="moments">
+            <div class="section-heading">
+                <div>
+                    <p class="kicker">Our little moments</p>
+                    <h2>镜头里的我们</h2>
+                </div>
+                <p>照片会停留在某一秒，而我喜欢你，是 everyday。</p>
+            </div>
+
+            <div class="album">
+                <figure class="photo-card photo-wide photo-us reveal">
+                    <div class="media">
+                        <img src="img/us.jpg" alt="我们的情侣合照">
+                    </div>
+                    <figcaption>
+                        <span class="caption-number">01 · 我们</span>
+                        <p>站在彼此身边，连最普通的日子都闪闪发光。</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo-card photo-tall photo-wife-call reveal">
+                    <div class="media">
+                        <img src="img/wife-call.jpg" alt="老婆在电话亭里的照片">
+                    </div>
+                    <figcaption>
+                        <span class="caption-number">02 · 我最爱的你</span>
+                        <p>想对你说的话很多，最重要的那句是：我爱你。</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo-card photo-tall photo-wife-lake reveal">
+                    <div class="media">
+                        <img src="img/wife-lake.jpg" alt="老婆在湖边的照片">
+                    </div>
+                    <figcaption>
+                        <span class="caption-number">03 · 风景里的你</span>
+                        <p>风吹过湖面，也吹动了我看见你时的心跳。</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="photo-card photo-tall photo-me reveal">
+                    <div class="media">
+                        <img src="img/me.jpg" alt="我的照片">
+                    </div>
+                    <figcaption>
+                        <span class="caption-number">04 · 爱你的我</span>
+                        <p>我会努力成为更可靠的人，也一直认真爱你。</p>
+                    </figcaption>
+                </figure>
+
+                <aside class="quote-card reveal">
+                    <span>“</span>
+                    <blockquote>
+                        我最想和你一起完成的，
+                        是“我们以后”的每一天。
+                    </blockquote>
+                    <small>TO MY FAVORITE PERSON</small>
+                </aside>
+            </div>
+        </section>
+
+        <section id="letter" class="letter-section">
+            <article id="loveLetter" class="love-letter">
+                <p class="letter-label">A LETTER FOR YOU</p>
+                <h2>
+                    喜欢不是一阵风，<br>
+                    是想和你过很多个普通日子。
+                </h2>
+                <p>亲爱的老婆：</p>
+                <p>
+                    遇见你以后，我开始觉得，两个人一起吃饭、散步、说废话，
+                    都是很值得期待的事情。谢谢你出现在我的生活里，
+                    也谢谢你愿意让我走进你的世界。
+                </p>
+
+                <div id="letterContent" class="letter-content">
+                    <p>
+                        我不敢保证未来的每一天都没有烦恼，但我可以保证，
+                        开心的时候想第一个和你分享，难过的时候也愿意好好陪着你。
+                    </p>
+                    <p>
+                        我希望我们不是只相爱一阵子，而是把喜欢慢慢变成习惯，
+                        把陪伴变成很长很长的以后。
+                    </p>
+                    <p class="letter-signature">
+                        爱你的我 <span>❤</span>
+                    </p>
+                </div>
+
+                <button id="revealLetter" class="reveal-button" type="button">
+                    拆开这封情书
+                </button>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        OUR STORY · TO BE CONTINUED
+    </footer>
+
+    <script>
+        const loveLetter = document.getElementById("loveLetter");
+        const revealButton = document.getElementById("revealLetter");
+
+        revealButton.addEventListener("click", function () {
+            loveLetter.classList.add("is-open");
+            revealButton.textContent = "我也一直爱你 ❤";
+            revealButton.disabled = true;
+            createHeartBurst();
+        });
+
+        function createHeartBurst() {
+            for (let i = 0; i < 24; i++) {
+                const heart = document.createElement("span");
+                heart.className = "heart-pop";
+                heart.textContent = Math.random() > 0.5 ? "♥" : "♡";
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.fontSize = `${16 + Math.random() * 24}px`;
+                heart.style.setProperty(
+                    "--drift",
+                    `${-90 + Math.random() * 180}px`
+                );
+                heart.style.animationDelay = `${Math.random() * 0.7}s`;
+
+                document.body.appendChild(heart);
+                window.setTimeout(() => heart.remove(), 3800);
+            }
+        }
+
+        const revealItems = document.querySelectorAll(".reveal");
+
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.12 }
+            );
+
+            revealItems.forEach((item) => observer.observe(item));
+        } else {
+            revealItems.forEach((item) => item.classList.add("is-visible"));
+        }
+    </script>
+</body>
+</html>
