@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>我们的故事 | You & Me</title>
 
     <style>
@@ -534,6 +535,12 @@
             transform: translateY(-2px);
         }
 
+        .reveal-button:disabled {
+            cursor: default;
+            background: #d97894;
+            transform: none;
+        }
+
         footer {
             width: min(1200px, calc(100% - 48px));
             margin: 0 auto;
@@ -554,6 +561,34 @@
         .reveal.is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .music-toggle {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 50;
+            padding: 12px 20px;
+            border: 1px solid rgba(199, 67, 104, 0.25);
+            border-radius: 999px;
+            color: var(--rose-deep);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 12px 35px rgba(120, 35, 65, 0.18);
+            backdrop-filter: blur(12px);
+            font-family: var(--sans);
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.25s, background 0.25s, color 0.25s;
+        }
+
+        .music-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(120, 35, 65, 0.24);
+        }
+
+        .music-toggle.is-playing {
+            color: #ffffff;
+            background: var(--rose);
         }
 
         .heart-pop {
@@ -690,6 +725,13 @@
 
             .love-letter.is-open .letter-content {
                 max-height: 700px;
+            }
+
+            .music-toggle {
+                right: 15px;
+                bottom: 15px;
+                padding: 10px 16px;
+                font-size: 13px;
             }
         }
 
@@ -885,15 +927,54 @@
         OUR STORY · TO BE CONTINUED
     </footer>
 
+    <audio id="backgroundMusic" loop preload="metadata" playsinline>
+        <source src="music/our-song.mp3" type="audio/mpeg">
+        你的浏览器不支持音频播放。
+    </audio>
+
+    <button id="musicToggle"
+            class="music-toggle"
+            type="button"
+            aria-pressed="false">
+        ♪ 播放音乐
+    </button>
+
     <script>
         const loveLetter = document.getElementById("loveLetter");
         const revealButton = document.getElementById("revealLetter");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const musicToggle = document.getElementById("musicToggle");
 
         revealButton.addEventListener("click", function () {
             loveLetter.classList.add("is-open");
             revealButton.textContent = "我也一直爱你 ❤";
             revealButton.disabled = true;
             createHeartBurst();
+        });
+
+        musicToggle.addEventListener("click", async function () {
+            if (backgroundMusic.paused) {
+                try {
+                    await backgroundMusic.play();
+                    musicToggle.textContent = "❚❚ 暂停音乐";
+                    musicToggle.classList.add("is-playing");
+                    musicToggle.setAttribute("aria-pressed", "true");
+                } catch (error) {
+                    musicToggle.textContent = "音乐无法播放";
+                    musicToggle.setAttribute("aria-pressed", "false");
+                    console.error("音乐播放失败：", error);
+                }
+            } else {
+                backgroundMusic.pause();
+                musicToggle.textContent = "♪ 播放音乐";
+                musicToggle.classList.remove("is-playing");
+                musicToggle.setAttribute("aria-pressed", "false");
+            }
+        });
+
+        backgroundMusic.addEventListener("error", function () {
+            musicToggle.textContent = "音乐加载失败";
+            musicToggle.setAttribute("aria-pressed", "false");
         });
 
         function createHeartBurst() {
